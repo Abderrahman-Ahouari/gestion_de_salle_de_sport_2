@@ -57,10 +57,8 @@ select  count(distinct id_Membre)
 from reservations 
 where statut ='confirmee'
 -- Quelles sont les trois activités les plus réservées ?
-select top 1 a.* 
- from  activite  a , reservations r
+select  a.*  ,count(r.id_activite) as nombre_reservations
+from  activite  a , reservations r
 where id_activite  = r.id_activite 
 group  by  id_activite
-order by count(*);
-
-
+order by nombre_reservations limit;
