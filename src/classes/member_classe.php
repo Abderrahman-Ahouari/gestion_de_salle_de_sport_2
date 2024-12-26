@@ -1,6 +1,6 @@
 <?php
-
-class utilisateur {
+require("connect.php");
+class Utilisateur {
     protected $id;
     protected $nom;
     protected $prenom;
@@ -92,5 +92,25 @@ class utilisateur {
     public function getRole(){
         return $this->role;
     }
+
+    public function login($email , $password){
+        $error ="";
+        $connect = new Connect("localhost","root","12345");
+        $stmt =$connect->getConnect()->prepare("select * from  utilisateur  where email =  :email");
+        $stmt->pindParam(":email",$email);
+        $stmt->execute();
+        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            if(md5($password )==$row['password']){
+                if($row['role']==1)
+                header('../../views/admin_dashboard.php');
+                elseif($row['role']==2)
+                header('../../views/user_dashboard.php');
+            }else 
+            $error ="mode passe ne pas vrée";
+        }else
+        $error ="email  ne existe pas";
+        return  $error;
+    }
+    public function signin()
 };
 ?>
