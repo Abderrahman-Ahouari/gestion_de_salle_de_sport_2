@@ -13,7 +13,7 @@ create table utilisateurs (
     password varchar(100) not null    
 );
 
-create table activites (
+create table activites ( 
     id_activite int primary key auto_increment,
     id_admin int not null,
     nom varchar(50) not null,
