@@ -1,6 +1,7 @@
 <?php
-
-class utilisateur {
+require("connect.php");
+class Utilisateur {
+    protected $id;
     protected $nom;
     protected $prenom;
     protected $email;
@@ -16,6 +17,7 @@ class utilisateur {
         $this->telephone =$telephone;
     }
     public function  __destruct(){}
+
     public function setNom($nom){
         $nom =trime($nom);
         $condition = "/^[a-zA-Z\s]{3,40}/i";
@@ -44,6 +46,71 @@ class utilisateur {
             $this->telephone=$telephone;
         return "";
     }
-    
-}
+    public function setEmail($email){
+        $email = trime($email);
+        if(empty($email) || !preg_match("/^[a-zA-Z]{5,20}\.@gmail.com\$/",$email))
+            return "etre le numero detelephene sur forme exmap@gamil.com";
+        else 
+            $this->email=$email;
+        return "";
+    }
+    public function setId($id){
+        if($id instanceof int){
+            $this->id =$id;
+            return " ";
+        }
+        else 
+            return "entre la id sure type entre";
+    }
+    public function setpassword($password){
+        $password = trime($password);
+        if(strlen($password)<8 || !preg_match("/^[a-zA-Z\s]{5,20}[0-9]{1,5}[-_@+)(\'\"$*^:.,]{1,20}$/",$password)){
+            return "entre password contains ou mois un nomber etou mois un  caractire spisaile et lengoure superer 8 ";
+        }
+        else 
+            $this->password =$password;
+        return "";
+    }
+    public function getNom(){
+        return $this->nom;
+    }
+    public function getPrenom(){
+        return $this->prenom;
+    }
+    public function getTelephone(){
+        return $this->telephone;
+    }
+    public function getPassword(){
+        return $this->password;
+    }
+    public function getEmail(){
+        return $this->email;
+    }
+    public function getId(){
+        return $this->id;
+    }
+    public function getRole(){
+        return $this->role;
+    }
+
+    public function login($email , $password){
+        $error ="";
+        $connect = new Connect("localhost","root","12345");
+        $stmt =$connect->getConnect()->prepare("select * from  utilisateur  where email =  :email");
+        $stmt->pindParam(":email",$email);
+        $stmt->execute();
+        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            if(md5($password )==$row['password']){
+                if($row['role']==1)
+                header('../../views/admin_dashboard.php');
+                elseif($row['role']==2)
+                header('../../views/user_dashboard.php');
+            }else 
+            $error ="mode passe ne pas vrée";
+        }else
+        $error ="email  ne existe pas";
+        return  $error;
+    }
+    public function signin()
+};
 ?>
