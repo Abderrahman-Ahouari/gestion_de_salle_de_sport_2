@@ -7,7 +7,7 @@ class ConnectException extends Exception {
     }
 
 }
-class Connect {
+class Connect { 
     private $connect ;
     public function __construct($servername,$username,$password){
         try{

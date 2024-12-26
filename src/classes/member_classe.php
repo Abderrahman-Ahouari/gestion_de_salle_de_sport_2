@@ -100,13 +100,11 @@ class Utilisateur {
     public function getRole(){
         return $this->role;
     }
-
     public function setSESSION(){
         session_start();
         $_SESSION['email']=$this->getEmail();
         $_SESSION['role'] =$this->getRole();
     }
-
     public function login(){
         $error ="";
         $connect = new Connect("localhost","root","12345");
