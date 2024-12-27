@@ -50,7 +50,7 @@ class Utilisateur {
     }
     public function setEmail($email){
         $email = trim($email);
-        if(empty($email) || !preg_match("/^[a-zA-Z]{5,20}\.@gmail.com\$/",$email))
+        if(empty($email) || !preg_match("/^[a-zA-Z]{5,20}@gmail\.com$/",$email))
             return "etre le numero detelephene sur forme exmap@gamil.com";
         else 
             $this->email=$email;
@@ -65,14 +65,15 @@ class Utilisateur {
             return "entre la id sure type entre";
     }
     public function setRole($role){
-        if($role != 1 || $role != 2)
+        if($role != "admin" || $role != "membre")
             return "error";
         else 
             $this->role = $role;
     }
     public function setPassword($password){
         $password = trim($password);
-        if(strlen($password)<8 || !preg_match("/^[a-zA-Z\s]{5,20}[0-9]{1,5}[-_@+)(\'\"$*^:.,]{1,20}$/",$password)){
+        if(strlen($password)<8 ){
+            // || !preg_match("/^[a-zA-Z\s]{5,20}[0-9]{1,5}[-_@+)(\'\"$*^:.,]{1,20}$/",$password)
             return "entre password contains ou mois un nomber etou mois un  caractire spisaile et lengoure superer 8 ";
         }
         else 
@@ -101,7 +102,7 @@ class Utilisateur {
         return $this->role;
     }
     public function setSession(){
-        session_start();
+        // session_start();
         $_SESSION['email']=$this->getEmail();
         $_SESSION['role'] =$this->getRole();
     }
@@ -112,20 +113,25 @@ class Utilisateur {
     public function login(){
         $error ="";
         $connect = new Connect("localhost","root","12345");
-        $stmt =$connect->getConnect()->prepare("select * from  utilisateur  where email =  :email");
-        $stmt->bindParam(":email",$this->getEmail());
+        $stmt =$connect->getConnect()->prepare("select *  from utilisateurs where email =  :email");
+        $stmt->bindParam(":email",$this->email);
         $stmt->execute();
         if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            if (verify_password($this->getPassword(), $row['password'])) {
+            if (password_verify($this->getPassword(), $row['password'])) {
+                
+                $this->setRole($row['role']);
                 $this->setSession();
-                if($row['role']==1){
-                    header('../../views/admin_dashboard.php');
+                if($row['role']=="admin"){
+                    header('Location: home_admin.php');
+                    $error = "page homme admin";
                     exit;
                 }
-                elseif($row['role']==2){
-                    header('../../views/user_dashboard.php');
+                elseif($row['role']=="membre"){
+                    header('Location: home_user.php');
+                    $error = "page homme client";
                     exit;
                 }
+                else  $error = "role";
             }else 
             $error ="mode passe ne pas vrée";
         }else
@@ -136,7 +142,7 @@ class Utilisateur {
     public function signin($nom , $prenom ,$email,$role,$password,$telephone ){
         $connect = new Connect("localhost","root","12345");
         $stmt =$connect->getConnect()->prepare("select * from utilisateurs  where email = :email");
-        $stmt->bindValue(":email", $email);
+        $stmt->bindParam(":email", $email);
         $stmt->execute();
         if(!($row = $stmt->fetch(PDO::FETCH_ASSOC))){
             $this->setPrenom($prenom );
@@ -154,9 +160,11 @@ class Utilisateur {
             $stmt->bindParam(":role", $role);
             $stmt->bindParam(":password", $password);
             $stmt->execute();
+            echo "<h1> valid</h1>";
             return 1;
         }
-        return 0;
+        echo "<h1> eroo</h1>";
+        return 0; 
     }
     
 };

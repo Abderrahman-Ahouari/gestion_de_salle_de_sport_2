@@ -2,11 +2,13 @@
 require "../src/classes/member_classe.php";
 autandification();
 $user = new Utilisateur();
-if(isset($_POST['email']) && isset($_POST['Password']) && isset($_POST['login'])){
+if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['login'])){
 $user->setEmail($_POST['email']);
-$user->setPassword($_POST['Password']);
-$user->login();
-}
+$user->setPassword($_POST['password']);
+// echo 'email : ' .$_POST['email']. ' : email'.$user->getEmail();
+if($er =$user->login())
+echo 'ee'.$er;
+}else echo "isis";
 ?>
 
 <!DOCTYPE html>
