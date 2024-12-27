@@ -84,10 +84,6 @@
 </head>
 <body>
 
-<header>
-    <h1>Admin Dashboard</h1>
-    <a href="addActivite.php" class="add-activity-btn">Add Activité</a>
-</header>
 
 <div class="container">
     <h2>List of Clients</h2>

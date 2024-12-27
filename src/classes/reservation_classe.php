@@ -17,7 +17,7 @@ class Reservation {
     public function setID($id){
          $this->id_reservation =$id;
     }
-    public function setIdMember($id){
+    public function setIdMember($id){ 
         $this->id_Membre = $id;
     }
     public function setIdActivite($id){
