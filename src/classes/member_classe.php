@@ -1,7 +1,7 @@
 <?php
-require("connect.php");
-require("./reservation_classe.php");
-require("./activités_classe.php");
+require_once ("connect.php");
+require_once("reservation_classe.php");
+require_once("activites_classe.php");
 class Utilisateur {
     protected $id;
     protected $nom;
@@ -100,10 +100,14 @@ class Utilisateur {
     public function getRole(){
         return $this->role;
     }
-    public function setSESSION(){
+    public function setSession(){
         session_start();
         $_SESSION['email']=$this->getEmail();
         $_SESSION['role'] =$this->getRole();
+    }
+    public function logout(){
+        session_unset();
+        session_destroy();
     }
     public function login(){
         $error ="";
@@ -112,8 +116,8 @@ class Utilisateur {
         $stmt->bindParam(":email",$this->getEmail());
         $stmt->execute();
         if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            if(md5($this->getPassword() )==$row['password']){
-                $this->setSESSION();
+            if (verify_password($this->getPassword(), $row['password'])) {
+                $this->setSession();
                 if($row['role']==1){
                     header('../../views/admin_dashboard.php');
                     exit;
@@ -128,30 +132,33 @@ class Utilisateur {
         $error ="email  ne existe pas";
         return  $error;
     }
+
     public function signin($nom , $prenom ,$email,$role,$password,$telephone ){
         $connect = new Connect("localhost","root","12345");
-        $stmt =$connect->getConnect()->prepare("select * from  utilisateur  where email =  :email");
-        $stmt->bindParam(":email",$this->getEmail(),PDO::PARAM_STR);
+        $stmt =$connect->getConnect()->prepare("select * from utilisateurs  where email = :email");
+        $stmt->bindValue(":email", $email);
         $stmt->execute();
         if(!($row = $stmt->fetch(PDO::FETCH_ASSOC))){
             $this->setPrenom($prenom );
             $this->setnom($nom );
             $this->setemail($email );
             $this->setrole($role );
-            $this->setpassword($password );
+            $password = password_hash($password, PASSWORD_BCRYPT);
+            $this->setpassword($password); 
             $this->settelephone($telephone );
-        $stmt =$connect->getConnect()->prepare("insert into   utilisateurs(nom,prenom,email,telephone,role,password) values (:nom,:prenom,:eamil,:telephone,:role,:password)");
-        $stmt->bindParam(":nom",$nom);
-        $stmt->bindParam(":prenom",$prenom);
-        $stmt->bindParam(":email",$email);
-        $stmt->bindParam(":telephone",$telephone);
-        $stmt->bindParam(":role",$role);
-        $stmt->bindParam(":password",$password);
-        $stmt->execute();
-        return 1;
+            $stmt =$connect->getConnect()->prepare("insert into utilisateurs (nom,prenom,email,telephone,role,password) values (:nom,:prenom,:email,:telephone,:role,:password)");
+            $stmt->bindParam(":nom", $nom);
+            $stmt->bindParam(":prenom", $prenom);
+            $stmt->bindParam(":email", $email);
+            $stmt->bindParam(":telephone", $telephone);
+            $stmt->bindParam(":role", $role);
+            $stmt->bindParam(":password", $password);
+            $stmt->execute();
+            return 1;
         }
         return 0;
     }
+    
 };
  
 
@@ -199,14 +206,14 @@ class Members extends Utilisateur{
 class Admin extends Utilisateur{
     public function crrerActivite($activite){
         $connect =  new Connect("localhost","root","12345");
-        if($activite instanceof Activites){
+        if($activite instanceof Activites){            
             $stmt = $connect->getConnect()->prepare("insert into activite  (id_admin,nom,descriptionA,capacite,date_fin,disponibilite) values (:id_admin,:nom,:descriptionA,:capacite,:date_fin,:disponibilite)");
-            $stmt->bindParam(":id_admin",$this->getId());
-            $stmt->bindParam(":nom",$this->getId());
-            $stmt->bindParam(":descriptionA",$this->getId());
-            $stmt->bindParam(":capacite",$this->getId());
-            $stmt->bindParam(":date_fin",$this->getId());
-            $stmt->bindParam(":disponibilite",$this->getId());
+            $stmt->bindParam(":id_admin",$activite->get_id_admin());
+            $stmt->bindParam(":nom",$activite->get_nom_activite());
+            $stmt->bindParam(":descriptionA",$activite->get_description());
+            $stmt->bindParam(":capacite",$activite->get_capacite());
+            $stmt->bindParam(":date_fin",$activite->get_date_fin());
+            $stmt->bindParam(":disponibilite",$activite->get_disponibilite());
             $stmt->execute();
         }
 
@@ -228,7 +235,7 @@ class Admin extends Utilisateur{
         $connect = new Connect("localhost","root","12345");
         if($activite instanceof Activites){
             $stmt = $connect->getConnect()->prepare("delete from activite where id_activite = :id ");
-            $stmt->bindParam(":id",$activite->getId());
+            $stmt->bindParam(":id",$activite->get_id_activite());
             $stmt->execute();
         }
     } 
@@ -265,6 +272,43 @@ class Admin extends Utilisateur{
 
 };
 
-
-
+function  autandification(){
+    session_start();
+    if(!isset($_SESSION['role'])){
+        // header("location: login.php");
+        // exit;
+    }elseif($_SESSION['role']==1){
+        header("location: home_admin.php");
+        exit;
+    }elseif($_SESSION['role']==2){
+        header("location: home_user.php");
+        exit;
+    }
+};
+function  autandificationC(){
+    session_start();
+    if(!isset($_SESSION['role'])){
+        header("location: login.php");
+        exit;
+    }elseif($_SESSION['role']==1){
+        header("location: home_admin.php");
+        exit;
+    }elseif($_SESSION['role']==2){
+        // header("location: home_user.php");
+        // exit;
+    }
+};
+function  autandificationA(){
+    session_start();
+    if(!isset($_SESSION['role'])){
+        header("location: login.php");
+        exit;
+    }elseif($_SESSION['role']==1){
+        // header("location: home_admin.php");
+        // exit;
+    }elseif($_SESSION['role']==2){
+        header("location: home_user.php");
+        exit;
+    }
+};
 ?>

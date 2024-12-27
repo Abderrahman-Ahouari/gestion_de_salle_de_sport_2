@@ -1,4 +1,5 @@
 <?php
+
 $admin_id = '2';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
@@ -11,8 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-    header("location: http://localhost/Plateforme%20de%20R%C3%A9servation%20de%20Consultations%20Juridiques/lawyer_dashboard.php");
-    exit();
     }
     require("headerAd.php"); 
 ?> 

@@ -1,4 +1,7 @@
 <?php require("headerAd.php");  ?>
+<?php 
+$user = new Utilisateur();
+?>
 
     <main class="pt-16">
         <!-- Hero Section -->

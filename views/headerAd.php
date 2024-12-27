@@ -1,3 +1,8 @@
+<?php 
+require "../src/classes/member_classe.php";
+autandificationA();
+$admin = new Utilisateur();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

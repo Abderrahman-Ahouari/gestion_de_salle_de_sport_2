@@ -1,5 +1,12 @@
 <?php 
-
+require "../src/classes/member_classe.php";
+autandification();
+$user = new Utilisateur();
+if(isset($_POST['email']) && isset($_POST['Password']) && isset($_POST['login'])){
+$user->setEmail($_POST['email']);
+$user->setPassword($_POST['Password']);
+$user->login();
+}
 ?>
 
 <!DOCTYPE html>
@@ -37,9 +44,9 @@
                             <button class="bg-gray-900 text-white py-2 px-4 rounded hover:bg-gray-800 focus:outline-none focus:shadow-outline w-24" type="submit" name="login">
                                 login
                             </button>
-                            <button class="bg-gray-900 text-white py-2 px-4 rounded hover:bg-gray-800 focus:outline-none focus:shadow-outline w-24" type="submit" name="signup">
+                            <a class="bg-gray-900 text-white py-2 px-4 rounded hover:bg-gray-800 focus:outline-none focus:shadow-outline w-24" type="submit" name="signup"  href="signup.php">
                                 signup
-                            </button>
+                            </a>
                         </div>
                     </form>
                 </div>

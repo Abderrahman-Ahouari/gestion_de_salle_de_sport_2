@@ -19,7 +19,7 @@ create table activites (
     nom varchar(50) not null,
     descriptionA text not null,
     capacite int  not null,
-    date_debu date  DEFAULT CURRENT_DATE,
+    date_debu DATE DEFAULT '2024/12/30',
     date_fin date,
     disponibilite ENUM('disponible', 'pas disponible')  not null,
     constraint FK_admin foreign key (id_admin) references utilisateurs(id_utilisateur) on delete cascade on update cascade
@@ -36,7 +36,7 @@ create table reservations(
 );
 insert into utilisateurs(nom,prenom,eamil,telephone,role,password)  
                 values   
-                     ('Doe', 'John', 'john.doe@example.com', '1234567890', 'user', MD5('password123')),
+                     ('Doe', 'John', 'john.doe@example.com', '1234567890', 'membre', MD5('password123')),
                      ('lakroune', 'hamza', 'lakroune@gmail.com', '0954545', 'admin', MD5('12345'));
 insert into activites(id_admin,nom,descriptionA,capacite,date_debu,date_fin,disponibilite) values
                      (1, 'Yoga', 'Description Yoga', 40, '2004-8-10', '2016-8-10','disponible' ),

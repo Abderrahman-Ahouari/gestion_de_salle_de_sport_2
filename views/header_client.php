@@ -1,3 +1,8 @@
+<?php 
+require "../src/classes/member_classe.php";
+autandificationC();
+$client = new Utilisateur();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
