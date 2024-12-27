@@ -88,47 +88,47 @@ require("./reservation_classe.php");
             return $this->disponibilite;
         }
 
-        public function add_activité($id_admin, $nom_activité, $description, $capacité, $date_debu, $date_fin, $disponibilite){
-             $this->set_id_admin($id_admin);     
-             $this->set_nom_activité($nom_activité);     
-             $this->set_description($description);     
-             $this->set_capacité($capacité);     
-             $this->set_date_debu($date_debu);     
-             $this->set_date_fin($date_fin);     
-             $this->set_disponibilite($disponibilite);
-             $add_activité = $connect->prepare("insert into activites(id_admin,nom,descriptionA,capacite,date_debu,date_fin,disponibilite) values
-                     (?, ? , ? , ? , ? , ? , ?);");
-             $add_activité->bind_param("ississs", $id_admin, $nom_activité, $description, $capacité, $date_debu, $date_fin, $disponibilite);
-             $add_activité->execute();
-             $add_activité->close();          
-    }
+    //     public function add_activité($id_admin, $nom_activité, $description, $capacité, $date_debu, $date_fin, $disponibilite){
+    //          $this->set_id_admin($id_admin);     
+    //          $this->set_nom_activité($nom_activité);     
+    //          $this->set_description($description);     
+    //          $this->set_capacité($capacité);     
+    //          $this->set_date_debu($date_debu);     
+    //          $this->set_date_fin($date_fin);     
+    //          $this->set_disponibilite($disponibilite);
+    //          $add_activité = $connect->prepare("insert into activites(id_admin,nom,descriptionA,capacite,date_debu,date_fin,disponibilite) values
+    //                  (?, ? , ? , ? , ? , ? , ?);");
+    //          $add_activité->bind_param("ississs", $id_admin, $nom_activité, $description, $capacité, $date_debu, $date_fin, $disponibilite);
+    //          $add_activité->execute();
+    //          $add_activité->close();          
+    // }
         
 
 
-        public function modify_activité($id_activité, $id_admin, $nom_activité, $description, $capacité, $date_debu, $date_fin, $disponibilite) {
-            $this->set_id_activité($id_activité);
-            $this->set_id_admin($id_admin);
-            $this->set_nom_activité($nom_activité);
-            $this->set_description($description);
-            $this->set_capacité($capacité);
-            $this->set_date_debu($date_debu);
-            $this->set_date_fin($dgit ate_fin);
-            $this->set_disponibilite($disponibilite);
+    //     public function modify_activité($id_activité, $id_admin, $nom_activité, $description, $capacité, $date_debu, $date_fin, $disponibilite) {
+    //         $this->set_id_activité($id_activité);
+    //         $this->set_id_admin($id_admin);
+    //         $this->set_nom_activité($nom_activité);
+    //         $this->set_description($description);
+    //         $this->set_capacité($capacité);
+    //         $this->set_date_debu($date_debu);
+    //         $this->set_date_fin($dgit ate_fin);
+    //         $this->set_disponibilite($disponibilite);
         
-            $update_activité = $this->connect->prepare("UPDATE activites SET id_admin = ?, nom = ?, descriptionA = ?, capacite = ?, date_debu = ?, date_fin = ?, disponibilite = ? WHERE id_activité = ?");
-            $update_activité->bind_param("ississsi", $this->id_admin, $this->nom_activité, $this->description, $this->capacité, $this->date_debu, $this->date_fin, $this->disponibilite, $this->id_activité);
-            $update_activité->execute();
-            $update_activité->close();
+    //         $update_activité = $this->connect->prepare("UPDATE activites SET id_admin = ?, nom = ?, descriptionA = ?, capacite = ?, date_debu = ?, date_fin = ?, disponibilite = ? WHERE id_activité = ?");
+    //         $update_activité->bind_param("ississsi", $this->id_admin, $this->nom_activité, $this->description, $this->capacité, $this->date_debu, $this->date_fin, $this->disponibilite, $this->id_activité);
+    //         $update_activité->execute();
+    //         $update_activité->close();
 
-        } 
+    //     } 
     
-        public function delete_activité($id_activité){
-            $this->set_id_activité($id_activité);    
-            $delete_activité = $this->connect->prepare("DELETE FROM activites WHERE id_activite = ?;");
-            $delete_activité->bind_param("i", $this->id_activité);
-            $delete_activité->execute();
-            $delete_activité->close();  
-        }    
+    //     public function delete_activité($id_activité){
+    //         $this->set_id_activité($id_activité);    
+    //         $delete_activité = $this->connect->prepare("DELETE FROM activites WHERE id_activite = ?;");
+    //         $delete_activité->bind_param("i", $this->id_activité);
+    //         $delete_activité->execute();
+    //         $delete_activité->close();  
+    //     }    
         
     }
 

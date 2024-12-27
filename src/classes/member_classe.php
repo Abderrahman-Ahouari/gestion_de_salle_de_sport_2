@@ -164,7 +164,7 @@ class Admin extends Utilisateur{
     public function crrerActivite(){
 
     }
-    public function  editActivite(){
+    public function  (){
 
     }
     public function sepprimeActivite(){
