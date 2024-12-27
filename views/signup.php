@@ -1,5 +1,16 @@
 <?php 
-
+require("./../src/classes/member_classe.php");
+$nom = $_POST['nom'];
+$prenom = $_POST['prenom'];
+$email = $_POST['email'];
+$telephone = $_POST['phone'];
+$role = $_POST['role'];
+$Password = $_POST['Password'];
+$activite = $_POST['activite'];
+$user = new Utilisateur();
+if($user->signin($nom , $prenom ,$email,$role,$password,$telephone )){
+    header("login.php");
+}
 ?>
 
 <!DOCTYPE html>
