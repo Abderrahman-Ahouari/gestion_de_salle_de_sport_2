@@ -1,5 +1,5 @@
 <footer>
-<div class="bg-gray-100">
+<div class="bg-gray-600">
     <div class="max-w-screen-xl py-10 px-4 sm:px-6 text-gray-800 sm:flex justify-between mx-auto">
         <div class="p-5 sm:w-8/12">
             <h3 class="font-bold text-3xl text-indigo-600 mb-4">Componentity</h3>

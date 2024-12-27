@@ -1,13 +1,11 @@
 <?php require("headerAd.php"); ?>
     <main class="pt-16">
-        <!-- Hero Section -->
         <section class="relative bg-gradient-to-br from-blue-900 to-indigo-800 text-white overflow-hidden">
             <div class="absolute inset-0 bg-black opacity-50"></div>
             <div class="absolute inset-0 bg-cover bg-center bg-[url(./../assets/img/salle-de-sport-tapis-course-scaled.jpg)] "></div>
             
             <div class="container mx-auto px-4 py-24 md:py-32 relative z-10">
                 <div class="flex flex-col md:flex-row items-center justify-between text-gray-300">
-                    <!-- Left Side: Company Info -->
                     <div class="w-full md:w-1/2 mb-12 md:mb-0">
                         <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
                             Innovate.<br>Transform.<br>Succeed.
@@ -19,7 +17,6 @@
                         </div>
                     </div>
                     
-                    <!-- Right Side: Features -->
                     <div class="w-full md:w-1/2 md:pl-12">
                         <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-8 shadow-2xl">
                             <h2 class="text-2xl font-semibold mb-6">Why MyCompany?</h2>
@@ -42,7 +39,6 @@
                 </div>
             </div>
             
-            <!-- Decorative Element -->
             <div class="absolute bottom-0 left-0 right-0">
                 <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
@@ -50,8 +46,6 @@
             </div>
         </section>
 
-        <!-- ... (rest of your main content) ... -->
     </main>
 
-    <!-- ... (previous script remains unchanged) ... -->
     <?php require("footer.php"); ?>
