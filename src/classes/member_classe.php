@@ -148,7 +148,9 @@ class Utilisateur {
         $stmt->bindParam(":role",$role);
         $stmt->bindParam(":password",$password);
         $stmt->execute();
+        return 1;
         }
+        return 0;
     }
 };
  
@@ -262,4 +264,7 @@ class Admin extends Utilisateur{
     }
 
 };
+
+
+
 ?>
