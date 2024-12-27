@@ -2,8 +2,8 @@
 
 require("connect.php");
 require("./reservation_classe.php");
-
-    class activités{
+ 
+    class Activités{
         private $id_activité;
         private $id_admin;
         private $nom_activité;

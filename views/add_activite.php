@@ -14,38 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("location: http://localhost/Plateforme%20de%20R%C3%A9servation%20de%20Consultations%20Juridiques/lawyer_dashboard.php");
     exit();
     }
-
+    require("headerAd.php"); 
 ?> 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-<header class="lg:px-16 px-4 bg-white flex flex-wrap items-center py-4 shadow-md">
-    <div class="flex-1 flex justify-between items-center">
-        <a href="#" class="text-xl">Company</a>
-    </div>
-    <label for="menu-toggle" class="pointer-cursor md:hidden block">
-        <svg class="fill-current text-gray-900" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-            <title>menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-        </svg>
-    </label>
-    <input class="hidden" type="checkbox" id="menu-toggle" />
-    <div class="hidden md:flex md:items-center md:w-auto w-full" id="menu">
-        <nav>
-            <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
-                <li><a class="md:p-4 py-3 px-0 block" href="cretationCont.php">Add reservation</a></li>
-                <li><a class="md:p-4 py-3 px-0 block" href="listeResrvate.php">Les réservations</a></li>
-                <li><a class="md:p-4 py-3 px-0 block" href="creatActivite.php">Add Activite</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
 <section>
     <div class="flex flex-wrap">
         <div class="w-full sm:w-8/12 mb-10">
