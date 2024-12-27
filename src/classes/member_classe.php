@@ -1,7 +1,7 @@
 <?php
 require("connect.php");
-require("./reservation_classe.php
-git");
+require("./reservation_classe.php");
+require("./activités_classe.php");
 class Utilisateur {
     protected $id;
     protected $nom;
@@ -116,10 +116,14 @@ class Utilisateur {
         if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             if(md5($this->getPassword() )==$row['password']){
                 $this->setSESSION();
-                if($row['role']==1)
-                header('../../views/admin_dashboard.php');
-                elseif($row['role']==2)
-                header('../../views/user_dashboard.php');
+                if($row['role']==1){
+                    header('../../views/admin_dashboard.php');
+                    exit;
+                }
+                elseif($row['role']==2){
+                    header('../../views/user_dashboard.php');
+                    exit;
+                }
             }else 
             $error ="mode passe ne pas vrée";
         }else
@@ -152,31 +156,98 @@ class Utilisateur {
  
 
 class Members extends Utilisateur{
-    public  function reservez(){
-
+    public  function reservez($activite){
+        $connect =  new Connect("localhost","root","12345");
+        if($activite instanceof Activites){
+            $stmt = $connect->getConnect()->prepare("insert into reservation  (id_Membre,id_activite) values (:idM,:idA)");
+            $stmt->bindParam(":idM",$this->getId());
+            $stmt->bindParam(":idA",$activite->getId());
+            $stmt->execute();
+        }
     }
-    public function editReservation(){
-
+    public function editReservation($reservation,$newReservation){
+        $connect = new Connect("localhost","root","12345");
+        if($reservation instanceof Reservation  && $newReservation instanceof Reservation){
+            $stmt = $connect->getConnect()->prepare("update reservation  set date_reservation =:date where id_reservation = :id ");
+            $stmt->bindParam(":date",$newReservation->getIdate());
+            $stmt->bindParam(":id",$reservation->getId());
+            $stmt->execute();
+        }
     }
-    public function sepprimeReservation(){
-
+    public function sepprimeReservation($reservation){
+        $connect = new Connect("localhost","root","12345");
+        if($reservation instanceof Reservation){
+            $stmt = $connect->getConnect()->prepare("delete from reservation where id_reservation = :id ");
+            $stmt->bindParam(":id",$reservation->getId());
+            $stmt->execute();
+    }
+    }
+    public function listeRservation(){
+        //
+    }
+    public function listActivite(){
+        //
     }
 };
 class Admin extends Utilisateur{
-    public function crrerActivite(){
+    //id_admin nom  descriptionA capacite date_debu date_fin disponibilite
+    public function crrerActivite($activite){
+        $connect =  new Connect("localhost","root","12345");
+        if($activite instanceof Activites){
+            $stmt = $connect->getConnect()->prepare("insert into activite  (id_admin,nom,descriptionA,capacite,date_fin,disponibilite) values (:id_admin,:nom,:descriptionA,:capacite,:date_fin,:disponibilite)");
+            $stmt->bindParam(":id_admin",$this->getId());
+            $stmt->bindParam(":nom",$this->getId());
+            $stmt->bindParam(":descriptionA",$this->getId());
+            $stmt->bindParam(":capacite",$this->getId());
+            $stmt->bindParam(":date_fin",$this->getId());
+            $stmt->bindParam(":disponibilite",$this->getId());
+            $stmt->execute();
+        }
 
     }
-    public function  editActivite(){
-
+    public function  editActivite($activite,$newActivite){
+        if($activite instanceof Activites  && $newActivite instanceof Activites){
+            $connect =  new Connect("localhost","root","12345");
+            $stmt = $connect->getConnect()->prepare("update Activites set id_admin = :id_admin , nom = :nom , descriptionA = :descriptionA , capacite = :capacite , date_fin = :date_fin , disponibilite = :disponibilite)");
+            $stmt->bindParam(":id_admin",$this->getId());
+            $stmt->bindParam(":nom",$this->getId());
+            $stmt->bindParam(":descriptionA",$this->getId());
+            $stmt->bindParam(":capacite",$this->getId());
+            $stmt->bindParam(":date_fin",$this->getId());
+            $stmt->bindParam(":disponibilite",$this->getId());
+            $stmt->execute();
+        }
     }
-    public function sepprimeActivite(){
-
+    public function sepprimeActivite($activite){
+        $connect = new Connect("localhost","root","12345");
+        if($activite instanceof Activites){
+            $stmt = $connect->getConnect()->prepare("delete from activite where id_activite = :id ");
+            $stmt->bindParam(":id",$activite->getId());
+            $stmt->execute();
+        }
     } 
-    public function confirfeReservation(){
-
+    public function confirfeReservation($reservation){
+        $connect = new Connect("localhost","root","12345");
+        if($reservation instanceof Reservation){
+            $stmt = $connect->getConnect()->prepare("update reservation set statut = 'confirmee' where id_reservation = :id ");
+            $stmt->bindParam(":id",$reservation->getId());
+            $stmt->execute();
+        }
     }
-    public function anulleReservation(){
-
+    public function anulleReservation($reservation){
+        $connect = new Connect("localhost","root","12345");
+        if($reservation instanceof Reservation){
+            $stmt = $connect->getConnect()->prepare("update reservation set statut = 'annulee' where id_reservation = :id ");
+            $stmt->bindParam(":id",$reservation->getId());
+            $stmt->execute();
+        }
     }
+    public function listeRservation(){
+        //
+    }
+    public function listActivite(){
+        //
+    }
+
 };
 ?>
