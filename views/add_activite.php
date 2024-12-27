@@ -10,12 +10,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $disponibilité = $_POST['disponibilité'];
 
 
-    
+
     header("location: http://localhost/Plateforme%20de%20R%C3%A9servation%20de%20Consultations%20Juridiques/lawyer_dashboard.php");
     exit();
     }
 
-?>
+?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
