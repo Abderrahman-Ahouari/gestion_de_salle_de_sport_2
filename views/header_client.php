@@ -42,7 +42,7 @@
         <nav>
             <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
                 <li><a class="md:p-4 py-3 px-0 block" href="view_reservations.php">dashboard</a></li>
-                <li><a class="md:p-4 py-3 px-0 block" href="add_activitie.php">Add Activite</a></li>
+                <li><a class="md:p-4 py-3 px-0 block" href="add_activitie.php">take reservation</a></li>
             </ul>
         </nav>
     </div>
