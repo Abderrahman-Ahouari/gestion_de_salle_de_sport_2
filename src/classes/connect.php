@@ -20,6 +20,8 @@ class Connect {
                 $e->getMessage();
         }
     } 
+    public function  __destruct(){}
+    
     public function getConnect(){
         return $this->connect;
     }
