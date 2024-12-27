@@ -159,9 +159,8 @@ class Members extends Utilisateur{
     public  function reservez($activite){
         $connect =  new Connect("localhost","root","12345");
         if($activite instanceof Activites){
-            $stmt = $connect->getConnect()->prepare("insert into reservation  (id_Membre,id_activite) values (:idM,:idA)");
-            $stmt->bindParam(":idM",$this->getId());
-            $stmt->bindParam(":idA",$activite->getId());
+            $stmt = $connect->getConnect()->prepare("");
+            $stmt->bindParam(":id",$this->getId());
             $stmt->execute();
         }
     }
@@ -183,14 +182,21 @@ class Members extends Utilisateur{
     }
     }
     public function listeRservation(){
-        //
+        $connect = new Connect("localhost","root","12345");
+            $stmt = $connect->getConnect()->prepare("select *   from  reservation id_Membre = :id");
+            $stmt->bindParam(":id",$this->getId());
+            $stmt->execute();
+        return $stmt;
     }
     public function listActivite(){
-        //
+        $connect = new Connect("localhost","root","12345");
+        $stmt = $connect->getConnect()->prepare("select *   from  activite  where   disponibilite = 1");
+        $stmt->bindParam(":id",$this->getId());
+        $stmt->execute();
+        return $stmt;
     }
 };
 class Admin extends Utilisateur{
-    //id_admin nom  descriptionA capacite date_debu date_fin disponibilite
     public function crrerActivite($activite){
         $connect =  new Connect("localhost","root","12345");
         if($activite instanceof Activites){
@@ -243,10 +249,18 @@ class Admin extends Utilisateur{
         }
     }
     public function listeRservation(){
-        //
+        $connect = new Connect("localhost","root","12345");
+            $stmt = $connect->getConnect()->prepare("select r.*   from  reservation r, activite a where  a.id_activite = r.id_activite and a.id_admin = :id");
+            $stmt->bindParam(":id",$this->getId());
+            $stmt->execute();
+        return $stmt;
     }
     public function listActivite(){
-        //
+        $connect = new Connect("localhost","root","12345");
+        $stmt = $connect->getConnect()->prepare("select *   from  activite  where   id_admin = :id");
+        $stmt->bindParam(":id",$this->getId());
+        $stmt->execute();
+    return $stmt;
     }
 
 };
