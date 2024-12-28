@@ -1,5 +1,5 @@
 <?php
-require_once ("connect.php");
+// require_once ("connect.php");
 require_once("reservation_classe.php");
 require_once("activites_classe.php");
 class Utilisateur {
@@ -192,8 +192,11 @@ class Members extends Utilisateur{
     public  function reservez($activite){
         $connect =  new Connect("localhost","root","12345");
         if($activite instanceof Activites){
-            $stmt = $connect->getConnect()->prepare("");
-            $stmt->bindParam(":id",$this->getId());
+            $stmt = $connect->getConnect()->prepare("insert into reservations(id_Membre,id_activite) values (:idm,:ida)");
+            $id=$this->getId();
+            $ida=$activite->get_id_activite();
+            $stmt->bindParam(":idm",$id);
+            $stmt->bindParam(":ida",$ida);
             $stmt->execute();
         }
     }
@@ -223,8 +226,7 @@ class Members extends Utilisateur{
     }
     public function listActivite(){
         $connect = new Connect("localhost","root","12345");
-        $stmt = $connect->getConnect()->prepare("select *   from  activite  where   disponibilite = 1");
-        $stmt->bindParam(":id",$this->getId());
+        $stmt = $connect->getConnect()->prepare("select *   from  activites  where   disponibilite = 1");
         $stmt->execute();
         return $stmt;
     }
@@ -253,13 +255,21 @@ class Admin extends Utilisateur{
     public function  editActivite($activite,$newActivite){
         if($activite instanceof Activites  && $newActivite instanceof Activites){
             $connect =  new Connect("localhost","root","12345");
-            $stmt = $connect->getConnect()->prepare("update Activites set id_admin = :id_admin , nom = :nom , descriptionA = :descriptionA , capacite = :capacite , date_fin = :date_fin , disponibilite = :disponibilite)");
-            $stmt->bindParam(":id_admin",$this->getId());
-            $stmt->bindParam(":nom",$this->getId());
-            $stmt->bindParam(":descriptionA",$this->getId());
-            $stmt->bindParam(":capacite",$this->getId());
-            $stmt->bindParam(":date_fin",$this->getId());
-            $stmt->bindParam(":disponibilite",$this->getId());
+            $stmt = $connect->getConnect()->prepare("update activites set id_admin = :id_admin , nom = :nom , descriptionA = :descriptionA , capacite = :capacite , date_fin = :date_fin , disponibilite = :disponibilite where = id_activite :id");
+           $id_admin = $newActivite->get_id_admin();
+           $nom = $newActivite->get_nom_activite();
+           $capacite = $newActivite->get_capacite();
+           $date = $newActivite->get_date_fin();
+           $description = $newActivite->get_description();
+           $disponibilite = $newActivite->get_disponibilite();
+           $id=$activite->get_id_activite();
+            $stmt->bindParam(":id_admin",$id_admin);
+            $stmt->bindParam(":nom",$nom);
+            $stmt->bindParam(":descriptionA",$description);
+            $stmt->bindParam(":capacite",$capacite);
+            $stmt->bindParam(":date_fin", $date);
+            $stmt->bindParam(":id", $id);
+            $stmt->bindParam(":disponibilite",$disponibilite );
             $stmt->execute();
         }
     }
@@ -275,16 +285,18 @@ class Admin extends Utilisateur{
     public function confirfeReservation($reservation){
         $connect = new Connect("localhost","root","12345");
         if($reservation instanceof Reservation){
-            $stmt = $connect->getConnect()->prepare("update reservation set statut = 'confirmee' where id_reservation = :id ");
-            $stmt->bindParam(":id",$reservation->getId());
+            $stmt = $connect->getConnect()->prepare("update reservations set statut = 'confirmee' where id_reservation = :id ");
+            $id=$reservation->getId();
+            $stmt->bindParam(":id",$id);
             $stmt->execute();
         }
     }
     public function anulleReservation($reservation){
         $connect = new Connect("localhost","root","12345");
         if($reservation instanceof Reservation){
-            $stmt = $connect->getConnect()->prepare("update reservation set statut = 'annulee' where id_reservation = :id ");
-            $stmt->bindParam(":id",$reservation->getId());
+            $stmt = $connect->getConnect()->prepare("update reservations set statut = 'annulee' where id_reservation = :id ");
+            $id=$reservation->getId();
+            $stmt->bindParam(":id",$id);
             $stmt->execute();
         }
     }

@@ -1,4 +1,7 @@
 <?php 
+
+require_once ("connect.php");
+
 class Reservation {
     
     private $id_reservation ;
@@ -6,7 +9,7 @@ class Reservation {
     private $id_activite; 
     private $date_reservation ; 
     private  $statut;
-    public function __construct($id_reservation,$id_Membre,$id_activite,$date_reservation=null,$statut='encour')
+    public function __construct($id_reservation ='',$id_Membre ='',$id_activite='',$date_reservation='',$statut='encour')
     {
         $this->id_reservation = $id_reservation ;
         $this->id_Membre =$id_Membre ;
@@ -44,6 +47,20 @@ class Reservation {
     public function getIdStatut(){
         return $this->statut;
     }    
+    public function insert(){
+        $connect = new Connect("localhost","root","12345");
+        $stmt =$connect->getConnect()->prepare("select *  from reservations where id_reservation =  :id");
+        $id = $this->getID(); 
+        $stmt->bindParam(":id",$id);
+        $stmt->execute();
+        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $this->setID($row['id_reservation']);
+            $this->setIdMember($row['id_Membre']);
+            $this->setIdActivite($row['id_activite']);
+            $this->setIddate($row['date_reservation']);
+            $this->setIdStatut($row['statut']);
+        }
+    }
 }
 
 ?>

@@ -1,166 +1,105 @@
+<?php
+
+require "../src/classes/member_classe.php";
+autandificationA();
+$reservation = new Reservation();
+$client = new Members();
+$client->setEmail($_SESSION['email']);
+$client->insert();
+$stmtActivite = $client->listActivite();
+if (isset($_POST['conservation']) && isset($_POST['activite'])) { 
+    $activite =  new Activites();
+    $activite->set_id_activite($_POST['activite']);
+$client->reservez($activite);
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book an Appointment</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<style>
-    body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-}
-
-.header {
-    background: #fff;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-    text-decoration: none;
-}
-
-.nav .nav-list {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
-}
-
-.nav .nav-list a {
-    text-decoration: none;
-    color: #333;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-}
-
-.nav .nav-list a:hover {
-    background: #f4f4f4;
-}
-
-.main-section {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin: 2rem;
-    gap: 2rem;
-}
-
-.form-container {
-    flex: 1;
-    max-width: 500px;
-    padding: 1rem;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.form-title {
-    text-align: center;
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 1rem;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    color: #333;
-}
-
-.form-control {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.btn {
-    display: block;
-    width: 100%;
-    padding: 0.75rem;
-    background: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    font-size: 1rem;
-    transition: background 0.3s ease;
-}
-
-.btn:hover {
-    background: #555;
-}
-
-.image-container {
-    flex: 1;
-    max-width: 500px;
-}
-
-.image-container img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    object-fit: cover;
-}
-
-</style>
 <body>
-<header class="header">
-    <div class="container">
-        <a href="#" class="logo">Company</a>
-        <nav class="nav">
-            <ul class="nav-list">
-                <li><a href="cretationCont.php">Add reservation</a></li>
-                <li><a href="listeResrvate.php">Les réservations</a></li>
-                <li><a href="creatActivite.php">Add Activite</a></li>
+
+<header class="lg:px-16 px-4 bg-white flex flex-wrap items-center py-4 shadow-md">
+    <div class="flex-1 flex justify-between items-center">
+        <a href="home.php" class="text-xl">home</a>
+    </div>
+
+    <label for="menu-toggle" class="pointer-cursor md:hidden block">
+      <svg class="fill-current text-gray-900"
+        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+        <title>menu</title>
+        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+      </svg>
+    </label>
+    <input class="hidden" type="checkbox" id="menu-toggle" />
+
+    <div class="hidden md:flex md:items-center md:w-auto w-full" id="menu">
+        <nav>
+            <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
+                <li><a class="md:p-4 py-3 px-0 block" href="cretationCont.php">Add reservation</a></li>
+                <li><a class="md:p-4 py-3 px-0 block" href="listeResrvate.php">Les réservations</a></li>
+                <li><a class="md:p-4 py-3 px-0 block" href="creatActivite.php">Add Activite</a></li>
             </ul>
         </nav>
     </div>
 </header>
-<section class="main-section">
-    <div class="form-container">
-        <h2 class="form-title">Book an Appointment</h2>
-        <form action="" method="POST">
-            <div class="form-group">
-                <label for="activite">Activite</label>
-                <select id="activite" name="activite" class="form-control">
-                    <option value="Select a service">Select a service</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" id="date" name="dateR" class="form-control">
-            </div>
-            <div class="form-group">
-                <button type="submit" name="conservation" class="btn">Conservation</button>
-            </div>
-        </form>
+
+
+
+    <section class="">
+        <div class="flex flex-wrap">
+    <div class="w-full sm:w-8/12 mb-10">
+      <div class="container mx-auto h-full sm:p-10">
+        <nav class="flex px-4 justify-between items-center">
+          
+          
+        </nav>
+        <div class="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="text-2xl py-4 px-6 bg-gray-900 text-white text-center font-bold uppercase">
+        reservation un actinite
     </div>
-    <div class="image-container">
-        <img src="https://images.unsplash.com/photo-1536147116438-62679a5e01f2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80" alt="Leafs">
+    <form class="py-4 px-6" action="" method="POST">
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2" for="activite">
+                activite
+            </label>
+            <select   
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="activite" name="activite">
+                <option value="">Select a service</option>
+                <?php 
+                while($row=$stmtActivite->fetch(PDO::FETCH_ASSOC)){
+                    echo '<option value="' . $row['id_activite'] . '">' . $row['nom'] . '</option>';
+                }
+                ?>
+                
+
+            </select>
+        </div>
+        <div class="flex items-center justify-center mb-4">
+            <button
+                class="bg-gray-900 text-white py-2 px-4 rounded hover:bg-gray-800 focus:outline-none focus:shadow-outline"
+                type="submit" name="conservation">
+                conservation
+            </button>
+        </div>
+
+    </form>
+</div>
+      </div>
     </div>
-</section>
+    <img src="./../assets/img/image2.jpg" alt="Leafs" class="w-full h-48 object-cover sm:h-screen sm:w-4/12">
+  </div>
+    </section>
+
+
 </body>
 </html>

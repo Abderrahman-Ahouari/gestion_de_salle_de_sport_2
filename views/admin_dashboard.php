@@ -2,20 +2,56 @@
 require "../src/classes/member_classe.php";
 autandificationA();
 $admin = new Admin();
+$reservation =  new Reservation();
+$activite = new Activites();
 $admin->setEmail($_SESSION['email']);
 $admin->insert();
+$hidden="hidden";
 // echo $admin->getId();
 $stmt =$admin->listActivite();
 $stmtReservation = $admin->listeRservation();
 if(isset($_POST['edit'])){
-    
+    $activite->set_id_activite($_POST['idA']);
+    $activite->insert(); 
+    $hidden="";
+   
 }
+if (isset($_POST['disponibilite']) && isset($_POST['nom']) && isset($_POST['descriptionA']) && isset($_POST['capacite']) && isset($_POST['date_fin']) && isset($_POST['conservation'])) { 
+    $nom=$_POST['nom'];
+     $descriptionA=$_POST['descriptionA'];
+     $capacite =$_POST['capacite'];
+     $date_fin =$_POST['date_fin'];
+     $disponibilite =$_POST['disponibilite'];
+     $user = new Admin();
+    $newactivite = new Activites();
+    $email =$_SESSION['email'];
+    $user->setEmail($email);
+    $user->insert();
+    $newactivite->set_id_admin($user->getId());
+    $newactivite->set_nom_activite($nom);
+    $newactivite->set_description($descriptionA);
+    $newactivite->set_capacite($capacite);
+    $newactivite->set_date_fin($date_fin);
+    $newactivite->set_disponibilite($disponibilite);
+    $admin->editActivite($activite,$newactivite);
+    $hidden="hidden";
+}  
 if(isset($_POST['delete'])){
-    $activite = new Activites();
     $activite->set_id_activite($_POST['idA']);
     $activite->insert();
     // echo 'id '.$_POST['idA'].'  ig' . $activite->get_id_activite();
     $admin->sepprimeActivite($activite);
+}
+if(isset($_POST['annuler'])){
+     $reservation->setID($_POST['idR']);
+     $reservation->insert();
+     $admin->anulleReservation($reservation);
+}
+if(isset($_POST['confirmer'])){
+    
+    $reservation->setID($_POST['idR']);
+    $reservation->insert();
+    $admin->confirfeReservation($reservation);
 }
 ?>
 <!DOCTYPE html>
@@ -69,13 +105,48 @@ if(isset($_POST['delete'])){
 </header>
 <body>
 
+<?php echo '<div class="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden '.$hidden.'absolute top-[20px]  rigth-[10px]">';?>
+    <div class="text-2xl py-4 px-6 bg-gray-900 text-white text-center font-bold uppercase">
+        Edit Activity
+    </div>
+    <form class="py-4 px-6" action="" method="POST">
+        <div class="mb-4">
+            <label for="nom" class="block text-gray-700 font-semibold">Nom de l'activité</label>
+            <input type="text" id="nom" name="nom" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+        </div>
+        <div class="mb-4">
+            <label for="descriptionA" class="block text-gray-700 font-semibold">Description</label>
+            <textarea id="descriptionA" name="descriptionA" rows="4" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required></textarea>
+        </div>
+        <div class="mb-4">
+            <label for="capacite" class="block text-gray-700 font-semibold">Capacité</label>
+            <input type="number" id="capacite" name="capacite" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+        </div>
+        <div class="mb-4">
+            <label for="date_fin" class="block text-gray-700 font-semibold">Date de fin</label>
+            <input type="date" id="date_fin" name="date_fin" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+        </div>
+        <div class="mb-6">
+            <label for="disponibilite" class="block text-gray-700 font-semibold">Disponibilité</label>
+            <select id="disponibilite" name="disponibilite" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                <option value="disponible">Disponible</option>
+                <option value="pasdisponible">Indisponible</option>
+            </select>
+        </div>
+        <div class="flex items-center justify-center mb-4">
+            <input class="bg-gray-900 text-white py-2 px-4 rounded hover:bg-gray-800 focus:outline-none focus:shadow-outline" type="submit" name="submit" value="Conservation"/>
+        </div>
+    </form>
+</div>
+
+
 
 <div class="container">
     <h2>List of Clients</h2>
     <table class="clients-table">
         <thead>
             <tr>
-                <th>First Name</th>
+                <th> Name</th>
                 <th>statut</th>
                 <th>Telephone</th>
                 <th> Activity</th>
@@ -92,8 +163,14 @@ if(isset($_POST['delete'])){
                 <td>'.$row['telephone'].'</td>
                 <td>'.$row['activite'].'</td>
                 <td>
-                    <a href="#" class="btn btn-confirm">Confirmer</a>
-                    <a href="#" class="btn btn-cancel">Annuler</a>
+                <form method="POST">
+                    <input value="'.$row['id_reservation'].'" name="idR" class="hidden" />
+                    <input type="submit" name="confirmer"   class="btn btn-confirm" value="Confirmer">
+                </form>
+                <form method="POST">
+                    <input value="'.$row['id_reservation'].'" name="idR" class="hidden" />
+                    <input name="annuler" type="submit"   class="btn btn-cancel" value="Annuler">
+                </form>
                 </td>
             </tr>';
             ?>

@@ -1,5 +1,5 @@
 
-<?php require("headerAd.php"); ?>
+<?php require("header_client.php"); ?>
     <main class="pt-16">
         <!-- Hero Section -->
         <section class="relative bg-gradient-to-br from-blue-900 to-indigo-800 text-white overflow-hidden">
