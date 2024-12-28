@@ -1,3 +1,4 @@
+
 <?php require("headerAd.php"); ?>
     <main class="pt-16">
         <!-- Hero Section -->
@@ -14,8 +15,8 @@
                         </h1>
                         <p class="text-xl mb-8 text-gray-300">Empowering businesses with cutting-edge solutions for a digital future.</p>
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                            <a href="creatActivite.php" class="bg-white text-blue-900 font-semibold px-8 py-3 rounded-full hover:bg-blue-100 transition duration-300 text-center">add activite</a>
-                            <a href="cretationCont.php" class="border-2 border-white text-white font-semibold px-8 py-3 rounded-full hover:bg-white hover:text-blue-900 transition duration-300 text-center">add reservation</a>
+                            <a href="add_activite.php" class="bg-white text-blue-900 font-semibold px-8 py-3 rounded-full hover:bg-blue-100 transition duration-300 text-center">add activite</a>
+                            <a href="admin_dashboard.php" class="border-2 border-white text-white font-semibold px-8 py-3 rounded-full hover:bg-white hover:text-blue-900 transition duration-300 text-center">Dashboard</a>
                         </div>
                     </div>
                     
@@ -54,4 +55,4 @@
     </main>
 
     <!-- ... (previous script remains unchanged) ... -->
-    <?php require("footer.php"); ?>
+<?php require("footer.php"); ?>

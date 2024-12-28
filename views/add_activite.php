@@ -1,20 +1,32 @@
 <?php
+require("headerAd.php");
 
-$admin_id = '2';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
-    $nom = $_POST['nom']; 
-    $description = $_POST['description']; 
-    $capacité = $_POST['Capacité']; 
-    $date_début = $_POST['date_début']; 
-    $date_fin = $_POST['date_fin'];
-    $disponibilité = $_POST['disponibilité'];
-
-
-
-    }
-    require("headerAd.php"); 
-?> 
+       if (isset($_POST['disponibilite']) && isset($_POST['nom']) && isset($_POST['descriptionA']) && isset($_POST['capacite']) && isset($_POST['date_fin']) && isset($_POST['conservation'])) { 
+        $nom=$_POST['nom'];
+         $descriptionA=$_POST['descriptionA'];
+         $capacite =$_POST['capacite'];
+         $date_fin =$_POST['date_fin'];
+         $disponibilite =$_POST['disponibilite'];
+         $user = new Admin();
+        $activite = new Activites();
+        $email =$_SESSION['email'];
+        $user->setEmail($email);
+        $user->insert();
+        $activite->set_id_admin($user->getId());
+        $activite->set_nom_activite($nom);
+        $activite->set_description($descriptionA);
+        $activite->set_capacite($capacite);
+        $activite->set_date_fin($date_fin);
+        $activite->set_disponibilite($disponibilite);
+        $user->crrerActivite($activite);
+       }
+    //    $user = new Admin();
+    //    $email =$_SESSION['email'];
+    //    $user->setEmail($email);
+    //    $user->insert();
+    //   echo  $user->getEmail()  .' ' . $user->getNom() .' ' . $user->getId();
+    //   $user->crrerActivite(new Activites(1,$user->getId(),'nom','deer',12,'2002/12/12','20/32/32','idd'));
+?>
 <section>
     <div class="flex flex-wrap">
         <div class="w-full sm:w-8/12 mb-10">
@@ -23,50 +35,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="text-2xl py-4 px-6 bg-gray-900 text-white text-center font-bold uppercase">
                         Add Activity
                     </div>
-                    <form class="py-4 px-6" action="" methode="POST" >
+                    <form class="py-4 px-6" action="" method="POST">
                         <div class="mb-4">
-                            <label class="block text-gray-700 font-bold mb-2" for="nom d'activiter">
-                                nom d'activiter
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nom" type="text" placeholder="nom d'activiter" name="nom"/>
+                            <label for="nom" class="block text-gray-700 font-semibold">Nom de l'activité</label>
+                            <input type="text" id="nom" name="nom" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700 font-bold mb-2" for="description d'activiter">
-                                description d'activiter
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" type="text" placeholder="description d'activiter" />
+                            <label for="descriptionA" class="block text-gray-700 font-semibold">Description</label>
+                            <textarea id="descriptionA" name="descriptionA" rows="4" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required></textarea>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700 font-bold mb-2" for=" Capacité">
-                                Capacité
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Capacité" type="text" name="Capacité" placeholder="Capacité"/>
+                            <label for="capacite" class="block text-gray-700 font-semibold">Capacité</label>
+                            <input type="text" id="capacite" name="capacite" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700 font-bold mb-2" for="date début">
-                                date début
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date début" type="date" name="date_début" placeholder="date début"/>
+                            <label for="date_fin" class="block text-gray-700 font-semibold">Date de fin</label>
+                            <input type="date" id="date_fin" name="date_fin" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 font-bold mb-2" for="date fin">
-                                date fin
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date fin" type="date" name="date_fin" placeholder="date fin"/>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 font-bold mb-2" for="disponibiliter">
-                                disponibiliter
-                            </label>
-                            <select name="disponibilité" id="disponibiliter" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="disponible">disponible</option>
-                                <option value="non disponible">non disponible</option>
+                        <div class="mb-6">
+                            <label for="disponibilite" class="block text-gray-700 font-semibold">Disponibilité</label>
+                            <select id="disponibilite" name="disponibilite" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                                <option value="disponible">Disponible</option>
+                                <option value="pasdisponible">Indisponible</option>
                             </select>
                         </div>
                         <div class="flex items-center justify-center mb-4">
-                            <button class="bg-gray-900 text-white py-2 px-4 rounded hover:bg-gray-800 focus:outline-none focus:shadow-outline" type="submit" name="conservation">
-                                save
-                            </button>
+                            <input class="bg-gray-900 text-white py-2 px-4 rounded hover:bg-gray-800 focus:outline-none focus:shadow-outline" type="submit" name="conservation" value="Conservation"/>
+                                
                         </div>
                     </form>
                 </div>
@@ -76,54 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </section>
 
-<script>
-document.querySelector("form").addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const submitter = event.submitter;
-    if (submitter && submitter.name === "conservation") {
-        const fields = [
-            {
-                id: "nom",
-                name: "nom d'activiter",
-                regex: /^[A-Za-z\s]{1,50}$/,
-                error: "doit contenir uniquement des lettres et ne pas dépasser 50 caractères."
-            },
-            {
-                id: "description",
-                name: "description d'activiter",
-                regex: /^[A-Za-z0-9\s]{1,350}$/,
-                error: "doit contenir uniquement des lettres et des chiffres et ne pas dépasser 350 caractères."
-            },
-            {
-                id: "Capacité",
-                name: "Capacité",
-                regex: /^[0-9]+$/,
-                error: "doit contenir uniquement des chiffres."
-            }
-        ];
-
-        let isValid = true;
-
-        fields.forEach(field => {
-            const input = document.getElementById(field.id);
-            if (!input.value.trim()) {
-                isValid = false;
-                alert(`Le champ '${field.name}' ne peut pas être vide.`);
-            } else if (!field.regex.test(input.value)) {
-                isValid = false;
-                alert(`Le champ '${field.name}' ${field.error}`);
-            }
-        });
-
-        if (isValid) {
-            alert("Les champs ont été validés avec succès !");
-            this.submit();
-        }
-    }
-});
 
 
-</script>
-</body>
-</html>
+<?php require("footer.php"); ?>

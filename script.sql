@@ -16,12 +16,12 @@ create table utilisateurs (
 create table activites ( 
     id_activite int primary key auto_increment,
     id_admin int not null,
-    nom varchar(50) not null,
+    nom varchar(50) not null, 
     descriptionA text not null,
     capacite int  not null,
     date_debu DATE DEFAULT '2024/12/30',
     date_fin date,
-    disponibilite ENUM('disponible', 'pas disponible')  not null,
+    disponibilite ENUM('disponible', 'pasdisponible')  not null,
     constraint FK_admin foreign key (id_admin) references utilisateurs(id_utilisateur) on delete cascade on update cascade
 );
 

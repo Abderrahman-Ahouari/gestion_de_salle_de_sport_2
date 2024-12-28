@@ -1,7 +1,7 @@
 <?php 
 require "../src/classes/member_classe.php";
-autandificationC();
-$client = new Utilisateur();
+autandificationA();
+// $admin = new Utilisateur();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +9,6 @@ $client = new Utilisateur();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyCompany - Alternative Hero Section</title>
-    <link rel="stylesheet" href="./../src/global.css">  
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
@@ -31,7 +30,7 @@ $client = new Utilisateur();
 
     <header class="lg:px-16 px-4 bg-white flex flex-wrap items-center py-4 shadow-md">
     <div class="flex-1 flex justify-between items-center">
-        <a href="#" class="text-xl text-black">home</a>
+        <a href="home_admin.php" class="text-xl">home</a>
     </div>
 
     <label for="menu-toggle" class="pointer-cursor md:hidden block">
@@ -46,10 +45,9 @@ $client = new Utilisateur();
     <div class="hidden md:flex md:items-center md:w-auto w-full" id="menu">
         <nav>
             <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
-                <li><a class="md:p-4 py-3 px-0 block" href="view_reservations.php">dashboard</a></li>
-                <li><a class="md:p-4 py-3 px-0 block" href="add_activitie.php">take reservation</a></li>
+                <li><a class="md:p-4 py-3 px-0 block" href="add_activite.php">Add Activité</a></li>
+                <li><a class="md:p-4 py-3 px-0 block" href="admin_dashboard.php">Dashboard</a></li>
             </ul>
         </nav>
     </div>
 </header>
-

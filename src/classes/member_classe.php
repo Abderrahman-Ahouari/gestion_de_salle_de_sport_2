@@ -57,12 +57,12 @@ class Utilisateur {
         return "";
     }
     public function setId($id){
-        if($id instanceof int){
+        // if($id instanceof int){
             $this->id =$id;
-            return " ";
-        }
-        else 
-            return "entre la id sure type entre";
+            // return " ";
+        // }
+        // else 
+        //     return "entre la id sure type entre";
     }
     public function setRole($role){
         if($role != "admin" || $role != "membre")
@@ -110,10 +110,28 @@ class Utilisateur {
         session_unset();
         session_destroy();
     }
+
+
+    public function insert(){
+        $connect = new Connect("localhost","root","12345");
+            $stmt =$connect->getConnect()->prepare("select *  from utilisateurs where email =  :email");
+            $email = $this->email; 
+            $stmt->bindParam(":email",$email);
+            $stmt->execute();
+            if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $this->setId($row['id_utilisateur']);
+                $this->setPrenom($row['prenom']);
+                $this->setNom($row['nom']);
+                $this->setEmail($row['email']);
+                $this->setRole($row['role']);
+                $this->setTelephone($row['telephone']);
+            }
+    }
+    
     public function login(){
         $error ="";
         $connect = new Connect("localhost","root","12345");
-        $stmt =$connect->getConnect()->prepare("select *  from utilisateurs where email =  :email");
+        $stmt = $connect->getConnect()->prepare("SELECT * FROM utilisateurs WHERE email = :email");
         $stmt->bindParam(":email",$this->email);
         $stmt->execute();
         if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -215,13 +233,19 @@ class Admin extends Utilisateur{
     public function crrerActivite($activite){
         $connect =  new Connect("localhost","root","12345");
         if($activite instanceof Activites){            
-            $stmt = $connect->getConnect()->prepare("insert into activite  (id_admin,nom,descriptionA,capacite,date_fin,disponibilite) values (:id_admin,:nom,:descriptionA,:capacite,:date_fin,:disponibilite)");
-            $stmt->bindParam(":id_admin",$activite->get_id_admin());
-            $stmt->bindParam(":nom",$activite->get_nom_activite());
-            $stmt->bindParam(":descriptionA",$activite->get_description());
-            $stmt->bindParam(":capacite",$activite->get_capacite());
-            $stmt->bindParam(":date_fin",$activite->get_date_fin());
-            $stmt->bindParam(":disponibilite",$activite->get_disponibilite());
+            $stmt = $connect->getConnect()->prepare("insert into activites  (id_admin,nom,descriptionA,capacite,date_fin,disponibilite) values (:id_admin,:nom,:descriptionA,:capacite,:date_fin,:disponibilite)");
+            $id_admin = $activite->get_id_admin();
+            $nom = $activite->get_nom_activite();
+            $descriptionA = $activite->get_description();
+            $capacite = $activite->get_capacite();
+            $date_fin = $activite->get_date_fin();
+            $disponibilite = $activite->get_disponibilite();
+            $stmt->bindParam(":id_admin", $id_admin, PDO::PARAM_INT);
+            $stmt->bindParam(":nom", $nom, PDO::PARAM_STR);
+            $stmt->bindParam(":descriptionA", $descriptionA, PDO::PARAM_STR);
+            $stmt->bindParam(":capacite", $capacite, PDO::PARAM_INT);
+            $stmt->bindParam(":date_fin", $date_fin, PDO::PARAM_STR);
+            $stmt->bindParam(":disponibilite", $disponibilite, PDO::PARAM_STR);
             $stmt->execute();
         }
 
@@ -242,8 +266,9 @@ class Admin extends Utilisateur{
     public function sepprimeActivite($activite){
         $connect = new Connect("localhost","root","12345");
         if($activite instanceof Activites){
-            $stmt = $connect->getConnect()->prepare("delete from activite where id_activite = :id ");
-            $stmt->bindParam(":id",$activite->get_id_activite());
+            $stmt = $connect->getConnect()->prepare("delete from activites where id_activite = :id ");
+            $id =$activite->get_id_activite();
+            $stmt->bindParam(":id",$id);
             $stmt->execute();
         }
     } 
@@ -265,15 +290,17 @@ class Admin extends Utilisateur{
     }
     public function listeRservation(){
         $connect = new Connect("localhost","root","12345");
-            $stmt = $connect->getConnect()->prepare("select r.*   from  reservation r, activite a where  a.id_activite = r.id_activite and a.id_admin = :id");
-            $stmt->bindParam(":id",$this->getId());
+            $stmt = $connect->getConnect()->prepare("select r.* ,a.nom as activite ,u.*  from  reservations r, activites a , utilisateurs u where u.id_utilisateur = id_Membre  and  a.id_activite = r.id_activite and a.id_admin = :id");
+            $id =$this->getId();
+            $stmt->bindParam(":id",$id);
             $stmt->execute();
         return $stmt;
     }
     public function listActivite(){
         $connect = new Connect("localhost","root","12345");
-        $stmt = $connect->getConnect()->prepare("select *   from  activite  where   id_admin = :id");
-        $stmt->bindParam(":id",$this->getId());
+        $stmt = $connect->getConnect()->prepare("select *   from  activites  where   id_admin = :id");
+        $id =$this->getId();
+        $stmt->bindParam(":id",$id);
         $stmt->execute();
     return $stmt;
     }

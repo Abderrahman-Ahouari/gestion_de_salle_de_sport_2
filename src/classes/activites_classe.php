@@ -1,5 +1,5 @@
 <?php
-
+require_once ("connect.php");
 
  
     class Activites{
@@ -87,6 +87,22 @@
             return $this->disponibilite;
         }
 
+        public function insert(){
+            $connect = new Connect("localhost","root","12345");
+            $stmt =$connect->getConnect()->prepare("select *  from activites where id_activite =  :id");
+            $id = $this->get_id_activite(); 
+            $stmt->bindParam(":id",$id);
+            $stmt->execute();
+            if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $this->set_id_activite($row['id_activite']);
+                $this->set_id_admin($row['id_admin']);
+                $this->set_nom_activite($row['nom']);
+                $this->set_description($row['descriptionA']);
+                $this->set_capacite($row['capacite']);
+                $this->set_disponibilite($row['disponibilite']);
+                $this->set_date_fin($row['date_fin']);
+            }
+        }
     
     }
 
