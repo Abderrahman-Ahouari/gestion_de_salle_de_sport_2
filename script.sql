@@ -28,7 +28,7 @@ create table activites (
 create table reservations(
     id_reservation int primary key auto_increment,
     id_Membre int not null,
-    id_activite int not null,    
+    id_activite int not null,       
     date_reservation  datetime default CURRENT_TIMESTAMP,
     statut enum('confirmee','annulee','encour') default 'encour',
     constraint FK_client foreign key (id_Membre) references utilisateurs(id_utilisateur) on delete cascade on update cascade,

@@ -219,8 +219,9 @@ class Members extends Utilisateur{
     }
     public function listeRservation(){
         $connect = new Connect("localhost","root","12345");
-            $stmt = $connect->getConnect()->prepare("select *   from  reservation id_Membre = :id");
-            $stmt->bindParam(":id",$this->getId());
+            $stmt = $connect->getConnect()->prepare("select r.* ,a.nom   from  reservations r , activites a  where  r.id_reservation =a.id_activite and  r.id_Membre = :id");
+            $id =$this->getId();
+            $stmt->bindParam(":id",$id);
             $stmt->execute();
         return $stmt;
     }

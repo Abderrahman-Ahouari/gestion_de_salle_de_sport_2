@@ -1,6 +1,6 @@
 <?php 
 require "../src/classes/member_classe.php";
-autandificationC();
+autandificationA();
 // $admin = new Utilisateur();
 ?>
 <!DOCTYPE html>

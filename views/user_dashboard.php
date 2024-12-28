@@ -1,7 +1,10 @@
 
 <?php
 require("header_client.php");
-
+$client =  new Members();
+$client->setEmail($_SESSION['email']);
+$client->insert();
+$stmtR =$client->listeRservation();
 ?>
 
 
@@ -18,17 +21,12 @@ require("header_client.php");
     <tbody class="bg-white divide-y divide-gray-200">
 
 <?php 
-$commandlistRes = "select concat(c.nom, ' ', c.prenom) as nomPrenom, c.email, r.statut, r.date_resevation
-                   from client c, reservation r
-                   where c.id = r.id_client
-                   group by r.id_client";
-$liste = mysqli_query($connect, $commandlistRes);
 
-while($row = mysqli_fetch_assoc($liste)) {
+while($row = $stmtR->fetch(PDO::FETCH_ASSOC)) {
 ?>
     <tr>
-        <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['nomPrenom']; ?></td>
-        <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['email']; ?></td>
+        <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['nom']; ?></td>
+        <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['staut']; ?></td>
         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['date_resevation']; ?></td>
         <td class="px-6 py-4 whitespace-nowrap">
             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"><?php echo $row['statut']; ?></span>
